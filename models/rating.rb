@@ -10,6 +10,10 @@ class Rating < ActiveRecord::Base
 
   after_save :update_post_avg_rating
 
+  def as_json_attr
+    attributes.merge(post_rating: post.avg_rating)
+  end
+
   private
 
   def update_post_avg_rating

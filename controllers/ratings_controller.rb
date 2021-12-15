@@ -12,7 +12,7 @@ class RatingsController < ApplicationController
     @rating = @post.ratings.new(rating_params)
 
     if @rating.save
-      render json: @rating, status: :created
+      render json: @rating.as_json_attr, status: :created
     else
       render_errors(@rating)
     end
@@ -20,7 +20,7 @@ class RatingsController < ApplicationController
 
   def update
     if @rating.update(rating_params)
-      render json: @rating, status: :ok
+      render json: @rating.as_json_attr, status: :ok
     else
       render_errors(@rating)
     end
