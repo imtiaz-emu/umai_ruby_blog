@@ -1,0 +1,1590 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "UMAI_Blog",
+    "version": "1.0",
+    "description": "It's an interview assessment test for Lead Engineer Role",
+    "contact": {
+      "email": "imtiaz.emu.it@gmail.com"
+    }
+  },
+  "host": "localhost:3000",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "description": "Create a new User",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "email",
+            "description": "first@user.com",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "password",
+            "description": "password",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "integer"
+                }
+              }
+            },
+            "examples": {}
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create User",
+        "operationId": "create-users"
+      },
+      "parameters": []
+    },
+    "/users/login": {
+      "post": {
+        "description": "Login user",
+        "parameters": [
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "email",
+            "description": "first@user.com",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "type": "string",
+            "name": "password",
+            "description": "password",
+            "required": true
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "user_id": {
+                  "type": "number"
+                }
+              }
+            },
+            "examples": {}
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "User Login",
+        "operationId": "user-login-post"
+      },
+      "parameters": []
+    },
+    "/posts": {
+      "post": {
+        "description": "Create a new Post",
+        "parameters": [
+          {
+            "type": "number",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "post": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "user_id": {
+                  "type": "number"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "content": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ip_address": {
+                  "type": "object",
+                  "properties": {
+                    "family": {
+                      "type": "number"
+                    },
+                    "addr": {
+                      "type": "number"
+                    },
+                    "mask_addr": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "family",
+                    "addr",
+                    "mask_addr"
+                  ]
+                },
+                "avg_rating": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "id",
+                "user_id",
+                "title",
+                "content",
+                "ip_address",
+                "avg_rating"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "id": 1,
+                  "user_id": 1,
+                  "title": "First Post",
+                  "content": "Lorem Ipsum 1",
+                  "ip_address": {
+                    "family": 2,
+                    "addr": 2130706433,
+                    "mask_addr": 4294967295
+                  },
+                  "avg_rating": "0.0"
+                }
+              }
+            },
+            "examples": {}
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create Post",
+        "operationId": "create-new-post"
+      },
+      "parameters": [],
+      "get": {
+        "summary": "",
+        "operationId": "get-posts",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "description": "",
+              "minItems": 1,
+              "uniqueItems": true,
+              "items": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "user_id",
+                  "title",
+                  "content",
+                  "ip_address",
+                  "avg_rating"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "user_id": {
+                    "type": "number"
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "content": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "ip_address": {
+                    "type": "object",
+                    "properties": {
+                      "family": {
+                        "type": "number"
+                      },
+                      "addr": {
+                        "type": "number"
+                      },
+                      "mask_addr": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "family",
+                      "addr",
+                      "mask_addr"
+                    ]
+                  },
+                  "avg_rating": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              },
+              "x-examples": {
+                "example-1": [
+                  {
+                    "id": 3,
+                    "user_id": 2,
+                    "title": "First Post",
+                    "content": "Lorem Ipsum",
+                    "ip_address": {
+                      "family": 2,
+                      "addr": 2130706433,
+                      "mask_addr": 4294967295
+                    },
+                    "avg_rating": "0.0"
+                  },
+                  {
+                    "id": 4,
+                    "user_id": 1,
+                    "title": "Third Post",
+                    "content": "Lorem Ipsum 3",
+                    "ip_address": {
+                      "family": 2,
+                      "addr": 2130706433,
+                      "mask_addr": 4294967295
+                    },
+                    "avg_rating": "0.0"
+                  }
+                ]
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Get all posts or current user posts",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID"
+          },
+          {
+            "type": "string",
+            "in": "query",
+            "name": "filter",
+            "description": "me"
+          }
+        ]
+      }
+    },
+    "/posts/:id": {
+      "parameters": [],
+      "patch": {
+        "summary": "Post Show, Update",
+        "operationId": "patch-posts-:id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "user_id": {
+                  "type": "number"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "content": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ip_address": {
+                  "type": "object",
+                  "properties": {
+                    "family": {
+                      "type": "number"
+                    },
+                    "addr": {
+                      "type": "number"
+                    },
+                    "mask_addr": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "family",
+                    "addr",
+                    "mask_addr"
+                  ]
+                },
+                "avg_rating": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "id",
+                "user_id",
+                "title",
+                "content",
+                "ip_address",
+                "avg_rating"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "id": 1,
+                  "user_id": 1,
+                  "title": "First Post",
+                  "content": "Lorem Ipsum 1",
+                  "ip_address": {
+                    "family": 2,
+                    "addr": 2130706433,
+                    "mask_addr": 4294967295
+                  },
+                  "avg_rating": "0.0"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "x-examples": {
+                "example-1": {
+                  "errors": [
+                    "Post not found."
+                  ]
+                }
+              },
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "errors"
+              ]
+            }
+          }
+        },
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "x-examples": {
+                "example-1": {
+                  "post": {
+                    "title": "First Post",
+                    "content": "Lorem Ipsum 1"
+                  }
+                }
+              },
+              "properties": {
+                "post": {
+                  "type": "object",
+                  "properties": {
+                    "title": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "content": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "required": [
+                "post"
+              ]
+            }
+          }
+        ],
+        "description": "Update a Post"
+      },
+      "get": {
+        "summary": "",
+        "operationId": "get-posts-:id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "user_id": {
+                  "type": "number"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "content": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "ip_address": {
+                  "type": "object",
+                  "properties": {
+                    "family": {
+                      "type": "number"
+                    },
+                    "addr": {
+                      "type": "number"
+                    },
+                    "mask_addr": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "family",
+                    "addr",
+                    "mask_addr"
+                  ]
+                },
+                "avg_rating": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "id",
+                "user_id",
+                "title",
+                "content",
+                "ip_address",
+                "avg_rating"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "id": 3,
+                  "user_id": 2,
+                  "title": "First Post",
+                  "content": "Lorem Ipsum",
+                  "ip_address": {
+                    "family": 2,
+                    "addr": 2130706433,
+                    "mask_addr": 4294967295
+                  },
+                  "avg_rating": "0.0"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Get a specific post",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID"
+          }
+        ]
+      }
+    },
+    "/posts/:post_id/ratings": {
+      "post": {
+        "description": "Create a new rating for a post",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "rating": {
+                  "type": "object",
+                  "properties": {
+                    "rate": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "rate"
+                  ]
+                }
+              },
+              "required": [
+                "rating"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "rating": {
+                    "rate": 3
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "post_id": {
+                  "type": "number"
+                },
+                "id": {
+                  "type": "number"
+                },
+                "rate": {
+                  "type": "number"
+                },
+                "user_id": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "post_id",
+                "id",
+                "rate",
+                "user_id"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "post_id": 1,
+                  "id": 3,
+                  "rate": 4,
+                  "user_id": 1
+                }
+              }
+            },
+            "examples": {}
+          },
+          "403": {
+            "description": "Forbidden",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create Rating",
+        "operationId": "post-ratings"
+      },
+      "parameters": []
+    },
+    "/posts/:post_id/ratings/:id": {
+      "parameters": [],
+      "patch": {
+        "summary": "Update Rating",
+        "operationId": "patch-posts-:post_id-ratings-:id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "post_id": {
+                  "type": "number"
+                },
+                "id": {
+                  "type": "number"
+                },
+                "rate": {
+                  "type": "number"
+                },
+                "user_id": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "post_id",
+                "id",
+                "rate",
+                "user_id"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "post_id": 1,
+                  "id": 3,
+                  "rate": 4,
+                  "user_id": 1
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "erros": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Update a rating on a post by specific user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "x-examples": {
+                "example-1": {
+                  "rating": {
+                    "rate": 4
+                  }
+                }
+              },
+              "properties": {
+                "rating": {
+                  "type": "object",
+                  "required": [
+                    "rate"
+                  ],
+                  "properties": {
+                    "rate": {
+                      "type": "number"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "rating"
+              ]
+            }
+          },
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID"
+          }
+        ]
+      }
+    },
+    "/posts/:post_id/feedbacks": {
+      "post": {
+        "description": "Create a new feedback for a post",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "feedback": {
+                  "type": "object",
+                  "properties": {
+                    "comment": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "comment"
+                  ]
+                }
+              },
+              "required": [
+                "feedback"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "feedback": {
+                    "comment": "he is not an awesome user"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "x-examples": {
+                "example-1": {
+                  "feedbackable_id": 1,
+                  "feedbackable_type": "Post",
+                  "id": 2,
+                  "comment": "he is not an awesome post",
+                  "owner_id": 1,
+                  "user_email": null,
+                  "post_rating": 4.3
+                }
+              },
+              "properties": {
+                "feedbackable_id": {
+                  "type": "number"
+                },
+                "feedbackable_type": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "id": {
+                  "type": "number"
+                },
+                "comment": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "owner_id": {
+                  "type": "number"
+                },
+                "user_email": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "post_rating": {
+                  "type": "number",
+                  "x-nullable": true
+                }
+              },
+              "required": [
+                "feedbackable_id",
+                "feedbackable_type",
+                "id",
+                "comment",
+                "owner_id"
+              ]
+            },
+            "examples": {}
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create Feedback",
+        "operationId": "post-feedback-create"
+      },
+      "parameters": [],
+      "get": {
+        "summary": "Get Feedbacks",
+        "operationId": "get-posts-:post_id-feedbacks",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "description": "",
+              "minItems": 1,
+              "uniqueItems": true,
+              "x-examples": {
+                "example-1": [
+                  {
+                    "feedbackable_id": 1,
+                    "feedbackable_type": "User",
+                    "id": 2,
+                    "comment": "he is not an awesome user",
+                    "owner_id": 1,
+                    "user_email": "first@user.com",
+                    "post_rating": null
+                  }
+                ]
+              },
+              "items": {
+                "type": "object",
+                "properties": {
+                  "feedbackable_id": {
+                    "type": "number"
+                  },
+                  "feedbackable_type": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "id": {
+                    "type": "number"
+                  },
+                  "comment": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "owner_id": {
+                    "type": "number"
+                  },
+                  "user_email": {
+                    "type": "string",
+                    "minLength": 1,
+                    "x-nullable": true
+                  },
+                  "post_rating": {
+                    "type": "number",
+                    "x-nullable": true
+                  }
+                },
+                "required": [
+                  "feedbackable_id",
+                  "feedbackable_type",
+                  "id",
+                  "comment",
+                  "owner_id",
+                  "user_email"
+                ]
+              }
+            }
+          }
+        },
+        "description": "Get feedbacks under a Post",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/posts/:post_id/feedbacks/:id": {
+      "parameters": [],
+      "patch": {
+        "summary": "Update Feedback",
+        "operationId": "patch-posts-:post_id-feedbacks-:id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "x-examples": {
+                "example-1": {
+                  "feedbackable_id": 1,
+                  "feedbackable_type": "User",
+                  "id": 2,
+                  "comment": "he is not an awesome user",
+                  "owner_id": 1,
+                  "user_email": "first@user.com",
+                  "post_rating": null
+                }
+              },
+              "properties": {
+                "feedbackable_id": {
+                  "type": "number"
+                },
+                "feedbackable_type": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "id": {
+                  "type": "number"
+                },
+                "comment": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "owner_id": {
+                  "type": "number"
+                },
+                "user_email": {
+                  "type": "string",
+                  "minLength": 1,
+                  "x-nullable": true
+                },
+                "post_rating": {
+                  "type": "number",
+                  "x-nullable": true
+                }
+              },
+              "required": [
+                "feedbackable_id",
+                "feedbackable_type",
+                "id",
+                "comment",
+                "owner_id",
+                "user_email"
+              ]
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Update a feedback under a post",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "feedback": {
+                  "type": "object",
+                  "properties": {
+                    "comment": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "comment"
+                  ]
+                }
+              },
+              "required": [
+                "feedback"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "feedback": {
+                    "comment": "he is not an awesome user"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "/users/:user_id/feedbacks": {
+      "post": {
+        "description": "Create a new feedback for a user",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "feedback": {
+                  "type": "object",
+                  "properties": {
+                    "comment": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "comment"
+                  ]
+                }
+              },
+              "required": [
+                "feedback"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "feedback": {
+                    "comment": "he is not an awesome user"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "x-examples": {
+                "example-1": {
+                  "feedbackable_id": 1,
+                  "feedbackable_type": "Post",
+                  "id": 2,
+                  "comment": "he is not an awesome post",
+                  "owner_id": 1,
+                  "user_email": null,
+                  "post_rating": 4.3
+                }
+              },
+              "properties": {
+                "feedbackable_id": {
+                  "type": "number"
+                },
+                "feedbackable_type": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "id": {
+                  "type": "number"
+                },
+                "comment": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "owner_id": {
+                  "type": "number"
+                },
+                "user_email": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "post_rating": {
+                  "type": "number",
+                  "x-nullable": true
+                }
+              },
+              "required": [
+                "feedbackable_id",
+                "feedbackable_type",
+                "id",
+                "comment",
+                "owner_id"
+              ]
+            },
+            "examples": {}
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Create Feedback",
+        "operationId": "user-feedback-create"
+      },
+      "parameters": [],
+      "get": {
+        "summary": "Get Feedbacks",
+        "operationId": "get-posts-:user_id-feedbacks",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "description": "",
+              "minItems": 1,
+              "uniqueItems": true,
+              "x-examples": {
+                "example-1": [
+                  {
+                    "feedbackable_id": 1,
+                    "feedbackable_type": "User",
+                    "id": 2,
+                    "comment": "he is not an awesome user",
+                    "owner_id": 1,
+                    "user_email": "first@user.com",
+                    "post_rating": null
+                  }
+                ]
+              },
+              "items": {
+                "type": "object",
+                "properties": {
+                  "feedbackable_id": {
+                    "type": "number"
+                  },
+                  "feedbackable_type": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "id": {
+                    "type": "number"
+                  },
+                  "comment": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "owner_id": {
+                    "type": "number"
+                  },
+                  "user_email": {
+                    "type": "string",
+                    "minLength": 1,
+                    "x-nullable": true
+                  },
+                  "post_rating": {
+                    "type": "number",
+                    "x-nullable": true
+                  }
+                },
+                "required": [
+                  "feedbackable_id",
+                  "feedbackable_type",
+                  "id",
+                  "comment",
+                  "owner_id",
+                  "user_email"
+                ]
+              }
+            }
+          }
+        },
+        "description": "Get feedbacks under a User",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID",
+            "required": true
+          }
+        ]
+      }
+    },
+    "/users/:user_id/feedbacks/:id": {
+      "parameters": [],
+      "patch": {
+        "summary": "Update Feedback",
+        "operationId": "patch-posts-:user_id-feedbacks-:id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "x-examples": {
+                "example-1": {
+                  "feedbackable_id": 1,
+                  "feedbackable_type": "User",
+                  "id": 2,
+                  "comment": "he is not an awesome user",
+                  "owner_id": 1,
+                  "user_email": "first@user.com",
+                  "post_rating": null
+                }
+              },
+              "properties": {
+                "feedbackable_id": {
+                  "type": "number"
+                },
+                "feedbackable_type": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "id": {
+                  "type": "number"
+                },
+                "comment": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "owner_id": {
+                  "type": "number"
+                },
+                "user_email": {
+                  "type": "string",
+                  "minLength": 1,
+                  "x-nullable": true
+                },
+                "post_rating": {
+                  "type": "number",
+                  "x-nullable": true
+                }
+              },
+              "required": [
+                "feedbackable_id",
+                "feedbackable_type",
+                "id",
+                "comment",
+                "owner_id",
+                "user_email"
+              ]
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "description": "Update a feedback under a user",
+        "parameters": [
+          {
+            "type": "integer",
+            "in": "header",
+            "name": "USER_TOKEN",
+            "description": "User ID",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "description": "",
+              "type": "object",
+              "properties": {
+                "feedback": {
+                  "type": "object",
+                  "properties": {
+                    "comment": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "comment"
+                  ]
+                }
+              },
+              "required": [
+                "feedback"
+              ],
+              "x-examples": {
+                "example-1": {
+                  "feedback": {
+                    "comment": "he is not an awesome user"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "title": "User",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string",
+          "format": "date",
+          "description": "The date that the user was created."
+        }
+      },
+      "required": [
+        "email",
+        "password"
+      ],
+      "description": "Has many posts, feedbacks, ratings."
+    },
+    "Post": {
+      "title": "Post",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "user_id": {
+          "$ref": "#/definitions/User"
+        },
+        "title": {
+          "type": "string",
+          "format": "date",
+          "description": "The date that the user was created."
+        },
+        "content": {
+          "type": "string"
+        },
+        "ip_address": {
+          "type": "string"
+        },
+        "avg_rating": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "user_id",
+        "title",
+        "content",
+        "ip_address"
+      ],
+      "description": "Post belongs to User. Has many feedbacks, ratings."
+    },
+    "Rating": {
+      "title": "Rating",
+      "type": "object",
+      "description": "Rating belongs to User and Post.",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "user_id": {
+          "$ref": "#/definitions/User"
+        },
+        "post_id": {
+          "$ref": "#/definitions/Post"
+        },
+        "rate": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "user_id",
+        "post_id",
+        "rate"
+      ]
+    },
+    "Feedback": {
+      "title": "Feedback",
+      "type": "object",
+      "description": "Feedback model belongs to User/Post. Associated to Owner.",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "owner_id": {
+          "$ref": "#/definitions/User"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "feedbackable_type": {
+          "type": "string"
+        },
+        "feedbackable_id": {
+          "type": "integer"
+        },
+        "user_email": {
+          "type": "string"
+        },
+        "post_rating": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "owner_id",
+        "comment",
+        "feedbackable_type",
+        "feedbackable_id"
+      ]
+    }
+  }
+}
